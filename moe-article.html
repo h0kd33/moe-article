@@ -1,0 +1,98 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-image/iron-image.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../moe-comment-list/moe-comment-list.html">
+<link rel="import" href="../moe-style/moe-style.html">
+<dom-module id="moe-article">
+    <style>
+    :host {
+        display: inline-block;
+        box-sizing: border-box;
+    }
+    
+    #image {
+        max-width: 250px;
+        max-height: 250px;
+        float: left;
+        clear: none;
+        line-height: 0;
+        font-size: 0;
+        margin: 0 15px 0 0;
+    }
+    #comment-title {
+        color: var(--title-color);
+        font-weight: bold;
+    }
+    #user-name {
+        color: var(--name-color);
+        font-weight: bold;
+    }
+    #identity {}
+    #serial-number {
+        color: var(--anchor-color);
+    }
+    #image {
+        float: left;
+        clear: none;
+        line-height: 0;
+        font-size: 0;
+        margin: 0 15px 0 0;
+    }
+    #image-anchor {
+        line-height: 0;
+        font-size: 0;
+    }
+    </style>
+    <template>
+        <a id="image-anchor" href="#">
+            <iron-image id="image" src="{{image}}"></iron-image>
+        </a>
+        <div>
+            <span id="comment-title">{{commenttitle}}</span>
+            <span id="user-name">{{username}}</span>
+            <span id="identity">{{identity}}</span>
+            <paper-button id="serial-number" class="btn-sm">{{_serialNumber(number,serial)}}</paper-button>
+        </div>
+        <moe-paragraph id="paragraph">
+            <content></content>
+        </moe-paragraph>
+        <moe-comment-list></moe-comment-list>
+    </template>
+</dom-module>
+<script>
+Polymer({
+
+    is: 'moe-article',
+
+    properties: {
+
+    },
+
+    // Element Lifecycle
+
+    ready: function() {
+        // `ready` is called after all elements have been configured, but
+        // propagates bottom-up. This element's children are ready, but parents
+        // are not.
+        //
+        // This is the point where you should make modifications to the DOM (when
+        // necessary), or kick off any processes the element wants to perform.
+    },
+
+    attached: function() {
+        // `attached` fires once the element and its parents have been inserted
+        // into a document.
+        //
+        // This is a good place to perform any work related to your element's
+        // visual state or active behavior (measuring sizes, beginning animations,
+        // loading resources, etc).
+    },
+
+    detached: function() {
+        // The analog to `attached`, `detached` fires when the element has been
+        // removed from a document.
+        //
+        // Use this to clean up anything you did in `attached`.
+    }
+});
+</script>

@@ -61,7 +61,8 @@
             <span id="comment-title">{{commenttitle}}</span>
             <span id="user-name">{{username}}</span>
             <span id="identity">{{identity}}</span>
-            <paper-button id="serial-number" class="btn-sm">{{_serialNumber(number,serial)}}</paper-button>
+            <span><paper-button id="replyBtn" on-click="_openArticle" mini>[返信]</paper-button></span>
+            <paper-button id="serial-number" mini>{{_serialNumber(number,serial)}}</paper-button>
         </div>
         <moe-paragraph id="paragraph">
             <content></content>
@@ -77,7 +78,10 @@ Polymer({
     properties: {
 
     },
-
+    _openArticle: function() {
+        console.log('open-article');
+        this.fire('open-article')
+    },
     // Element Lifecycle
 
     ready: function() {

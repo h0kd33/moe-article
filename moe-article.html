@@ -3,12 +3,22 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/iron-image/iron-image.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../moe-style/moe-style.html">
+<link rel="import" href="../moe-comment/moe-comment.html">
+<link rel="import" href="../moe-form/moe-form.html">
 <dom-module id="moe-article">
     <style>
     :host {
         display: inline-block;
         box-sizing: border-box;
+    }
+    
+    #article {
+        margin-bottom: 25px;
+        border: solid #ccc;
+        border-width: 1px 0;
+        padding: 0 5px;
     }
     
     #image {
@@ -53,22 +63,37 @@
     #replyBtn {
         color: blue;
     }
+    
+    #replyFormDialog {
+        position: fixed;
+        bottom: 0;
+        width: 550px;
+        margin-bottom: 0;
+        overflow: visible;
+    }
     </style>
     <template>
-        <a id="image-anchor" href="#">
-            <img src="../img/image.jpg" alt="">
-        </a>
-        <div>
-            <span id="comment-title">[[commenttitle]]</span>
-            <span id="user-name">[[username]]</span>
-            <span id="identity">[[identity]]</span>
-            <span><paper-button id="replyBtn" on-click="_openArticle" mini>[返信]</paper-button></span>
-            <paper-button id="serial-number" mini>[[serial]]</paper-button>
-        </div>
-        <moe-paragraph id="paragraph">
-            <content></content>
-        </moe-paragraph>
-        <moe-comment-list></moe-comment-list>
+        <section id="article">
+            <a id="image-anchor" href="#">
+                <img src="../img/image.jpg" alt="">
+            </a>
+            <div>
+                <span id="comment-title">[[article.commenttitle]]</span>
+                <span id="user-name">[[article.username]]</span>
+                <span id="identity">[[article.identity]]</span>
+                <span><paper-button id="replyBtn" on-tap="openReplyForm" mini>[返信]</paper-button></span>
+                <paper-button id="serial-number" mini>[[article.serial]]</paper-button>
+            </div>
+            <moe-paragraph id="paragraph"></moe-paragraph>
+            <template id="commentRepeat" is="dom-repeat" items="[[article.comments]]" as="comment" index-as="comment-index">
+                <paper-checkbox id="comment-checkbox" on-tap="_toggleSelection"></paper-checkbox>
+                <moe-comment id="comment" comment-data="[[comment]]"></moe-comment>
+            </template>
+        </section>
+        <paper-dialog id="replyFormDialog">
+            <h2>回應文章 <button dialog-dismiss type="">Cancel</button></h2>
+            <moe-form id="replyForm" editting> </moe-form>
+        </paper-dialog>
     </template>
 </dom-module>
 <script>
@@ -77,25 +102,24 @@ Polymer({
     is: 'moe-article',
 
     properties: {
-        image: {
-            type: String
-        },
-        commenttitle: {
-            type: String
-        },
-        username: {
-            type: String
-        },
-        identity: {
-            type: String
-        },
-        serial: {
-            type: Number
+        article: {
+            type: Object,
+            observer: '_injectHTML'
         }
     },
     _openArticle: function() {
         console.log('open-article');
         this.fire('open-article');
+    },
+    _injectHTML: function(e) {
+        this.$.paragraph.innerHTML = this.article.content;
+    },
+    openReplyForm: function() {
+        this.$.replyFormDialog.open();
+    },
+    attached: function() {
+        this.$.replyFormDialog.noCancelOnOutsideClick = true;
     }
+
 });
 </script>

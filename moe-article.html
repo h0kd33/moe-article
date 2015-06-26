@@ -81,7 +81,7 @@
                 <span id="comment-title">[[article.commenttitle]]</span>
                 <span id="user-name">[[article.username]]</span>
                 <span id="identity">[[article.identity]]</span>
-                <span><paper-button id="replyBtn" on-tap="openReplyForm" mini>[返信]</paper-button></span>
+                <span><paper-button id="replyBtn" on-tap="_openArticle" mini>[返信]</paper-button></span>
                 <paper-button id="serial-number" mini>[[article.serial]]</paper-button>
             </div>
             <moe-paragraph id="paragraph"></moe-paragraph>
@@ -108,7 +108,6 @@ Polymer({
         }
     },
     _openArticle: function() {
-        console.log('open-article');
         this.fire('open-article');
     },
     _injectHTML: function(e) {
